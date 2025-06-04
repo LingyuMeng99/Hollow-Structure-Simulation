@@ -48,7 +48,7 @@ t_total = 10000;
 dt = 0.005;
 dt_rec = 10;
 
-t_add = 500;%1000;
+t_add = 500; % Time to add p21
 add_judge = false;  
 
 N_rec = round(t_total/dt_rec);
@@ -75,10 +75,10 @@ while t <= t_total
 
     % Add p21 DNA as phi_3
     if ~add_judge && t >= t_add
-        phi_3_add_mean = 0.4;
+        phi_3_add_mean = 0.4; % Concentration of added p21 DNA
         phi_3_add = phi_3_add_mean + 0.02*rand(L,L);
         phi_3_add(phi_mat(:,:,1)>1) = 0.001;
-        phi_mat(:,:,2) = phi_mat(:,:,2) + phi_3_add;
+        phi_mat(:,:,3) = phi_mat(:,:,3) + phi_3_add;
         add_judge = true;
     end
 
@@ -92,6 +92,7 @@ while t <= t_total
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    % DPIC dynamics
     phi_tot = sum(phi_mat,3);
 
     dphi_mat = zeros(L,L,N_component);
@@ -121,7 +122,7 @@ while t <= t_total
     % gel_field(gel_field <= 0) = 0;
     gel_field = abs(gel_field);
     gel_field_c = 0.3;
-    D = exp(-gel_field/gel_field_c);
+    D = exp(-gel_field/gel_field_c); % Restricted diffusion for the gel
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
